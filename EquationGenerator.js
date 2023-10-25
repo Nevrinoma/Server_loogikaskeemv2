@@ -16,10 +16,7 @@ function EquationGenerator({ onGenerateEquation }) {
     };
     onGenerateEquation(newEquation);
   }
-  
-
   return (
-    
     <div className="equation-generator">
       <div style={{border: "1pt solid black"}}>
       {equation}
@@ -58,5 +55,4 @@ function EquationGenerator({ onGenerateEquation }) {
     
   );
 }
-
 export default EquationGenerator;

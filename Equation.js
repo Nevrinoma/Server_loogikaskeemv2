@@ -1,27 +1,32 @@
 import React, { useState, useEffect } from 'react';
 
-function Equation({ operator, operandA, operandB }) {
-  const [logicResult, setLogicResult] = useState(false);
+function Equation({ equation }) {
+  const { operator, operandA, operandB } = equation;
+
+  const [loogika, setLoogika] = useState(false);
 
   useEffect(() => {
-    const url = operator === "not"
-      ? `https://localhost:7118/api/NOTloogika/not_operatsioon/0?bool_1=${operandA}`
-      : `https://localhost:7118/api/${operator.toUpperCase()}loogika/${operator}_operatsioon/${operandA}/${operandB}`;
-
-    fetch(url)
-      .then(res => res.json())
-      .then(json => setLogicResult(json))
-      .catch(error => console.error('Error:', error));
+    if (operator === "AND") {
+      fetch(`https://localhost:7118/api/ANDloogika/and_operatsioon/${operandA}/${operandB}`)
+        .then(res => res.json())
+        .then(json => setLoogika(json));
+    } else if (operator === "OR") {
+      fetch(`https://localhost:7118/api/ORloogika/or_operatsioon/${operandA}/${operandB}`)
+        .then(res => res.json())
+        .then(json => setLoogika(json));
+    } else if (operator === "NOT") {
+      fetch(`https://localhost:7118/api/NOTloogika/not_operatsioon/0?bool_1=${operandA}`)
+        .then(res => res.json())
+        .then(json => setLoogika(json));
+    }
   }, [operator, operandA, operandB]);
-
   return (
     <div className="equation">
       <div className="equation-text">
-        <label>{operandA} {operator} {operandB}</label>
-        <label>{logicResult ? "true" : "false"}</label>
+          <label>{operandA} {operator} {operandB}</label>
+        <label>{loogika ? "true" : "false"}</label>
       </div>
     </div>
   );
 }
-
 export default Equation;
